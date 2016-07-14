@@ -26,10 +26,36 @@ describe(Author) do
 
   describe('#update') do
     it "lets you update an author in the author database" do
+      due_date = '2017-01-01'
       author = Author.new({:name => "Dan Brown", :id => nil})
       author.save()
       author.update({:name => 'Dan Phillipe'})
       expect(author.name()).to(eq('Dan Phillipe'))
+    end
+
+    it "lets you update/add a book to the author" do
+      due_date = '2017-01-01'
+      author = Author.new({:name => "Dan Brown", :id => nil})
+      author.save()
+      book = Book.new({:title => "Angels and Demons", :id => nil, :due_date => due_date})
+      book.save()
+      author.update({:book_ids => [book.id()]})
+      expect(author.books()).to(eq([book]))
+    end
+  end
+
+  describe('#books') do
+    it "returns all the books attributed to that author" do
+      due_date = '2017-01-01'
+      author = Author.new({:name => "Dan Brown", :id => nil})
+      author.save()
+      book = Book.new({:title => "Angels and Demons", :id => nil, :due_date => due_date})
+      book.save()
+      book2 = Book.new({:title => "The Da Vinci Code", :id => nil, :due_date => due_date})
+      book2.save()
+      author.update({:book_ids => [book.id()]})
+      author.update({:book_ids => [book2.id()]})
+      expect(author.books()).to(eq([book, book2]))
     end
   end
 
