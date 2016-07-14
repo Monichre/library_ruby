@@ -32,4 +32,15 @@ describe(Author) do
       expect(author.name()).to(eq('Dan Phillipe'))
     end
   end
+
+  describe('#delete') do
+    it "lets you an author from the database" do
+      author = Author.new({:name => 'Dan Brown', :id => nil})
+      author.save()
+      author2 = Author.new({:name => 'Jean Paul Sartes', :id => nil})
+      author2.save()
+      author.delete()
+      expect(Author.all()).to(eq([author2]))
+    end
+  end
 end
