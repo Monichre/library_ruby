@@ -26,7 +26,6 @@ describe(Book) do
       test_book2 = Book.new({:title => 'The Raven', :id => nil, :due_date => due_date})
       test_book2.save()
       expect(Book.find(test_book.id())).to(eq(test_book))
-
     end
   end
 
@@ -39,15 +38,28 @@ describe(Book) do
     end
   end
 
+  describe('#authors') do
+    it "returns all of the authors for a particular book" do
+      due_date = '2017-01-01'
+      test_book = Book.new({:title => 'The Sun Also Rises', :id => nil, :due_date => due_date})
+      test_book.save()
+      author = Author.new({:name =>'Ernest Hemingway', :id => nil})
+      author.save()
+      test_book.update({:title => "For Whom the Bell Tolls", :author_ids => [author.id()]})
+      expect(test_book.authors()).to(eq([author]))
+    end
+  end
+
   describe('#update') do
     it "lets you update books in the database" do
       due_date = '2017-01-01'
       test_book = Book.new({:title => 'The Sun Also Rises', :id => nil, :due_date => due_date})
       test_book.save()
-      test_book2 = Book.new({:title => 'The Sun Also Rises', :id => nil, :due_date => due_date})
-      test_book2.save()
-      test_book.update({:title => "For Whom the Bell Tolls"})
+      author = Author.new({:name =>'Ernest Hemingway', :id => nil})
+      author.save()
+      test_book.update({:title => "For Whom the Bell Tolls", :author_ids => [author.id()]})
       expect(test_book.title()).to(eq("For Whom the Bell Tolls"))
+      expect(test_book.authors()).to(eq([author]))
     end
   end
 
