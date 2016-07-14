@@ -31,4 +31,11 @@ class Author
     result = DB.exec("INSERT INTO authors (name) VALUES ('#{@name}') RETURNING id;")
     @id = result.first().fetch('id').to_i
   end
+
+  def update(attributes)
+    @name = attributes.fetch(:name, @name)
+    @id = self.id()
+    DB.exec("UPDATE authors SET name = '#{@name}' WHERE id = #{@id};")
+  end
+
 end

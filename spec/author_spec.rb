@@ -17,4 +17,19 @@ describe(Author) do
       expect(Author.find(test_author2.id())).to(eq(test_author2))
     end
   end
+
+  describe('#save') do
+    it "text" do
+      #write some save test code
+    end
+  end
+
+  describe('#update') do
+    it "lets you update an author in the author database" do
+      author = Author.new({:name => "Dan Brown", :id => nil})
+      author.save()
+      author.update({:name => 'Dan Phillipe'})
+      expect(author.name()).to(eq('Dan Phillipe'))
+    end
+  end
 end
