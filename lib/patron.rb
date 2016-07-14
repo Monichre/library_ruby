@@ -5,5 +5,5 @@ class Patron
     @name = attributes.fetch(:name)
     @id = attributes.fetch(:id)
   end
-  
+
 end
